@@ -1,5 +1,4 @@
 .env.test
 node_modules
-dist
 build
 .env
