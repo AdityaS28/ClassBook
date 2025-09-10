@@ -1,21 +1,23 @@
-# Use official Node.js 20 image
+# Use official Node.js LTS image
 FROM node:20
 
 # Set working directory
 WORKDIR /usr/src/app
 
-# Copy package files first and install dependencies
-COPY package*.json tsconfig.json ./
-RUN npm install --frozen-lockfile
+# Copy package files
+COPY package*.json ./
 
-# Copy the rest of the source code
+# Install dependencies
+RUN npm install
+
+# Copy source code
 COPY . .
 
 # Build TypeScript
 RUN npm run build
 
-# Expose backend port
+# Expose port
 EXPOSE 4000
 
-# Run the compiled app
-CMD ["npm", "start"]
+# Start the app
+CMD ["node", "dist/index.js"]
