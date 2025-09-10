@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: classbook
+      POSTGRES_PASSWORD: classbook
+      POSTGRES_DB: classbook
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+    restart: always
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgres://classbook:classbook@db:5432/classbook
+      JWT_ACCESS_SECRET: supersecretaccess
+      JWT_REFRESH_SECRET: supersecretrefresh
+    depends_on:
+      - db
+
+volumes:
+  db_data:
