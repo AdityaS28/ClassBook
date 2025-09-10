@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   db:
     image: postgres:15
@@ -13,8 +12,7 @@ services:
       - db_data:/var/lib/postgresql/data
 
   backend:
-    build:
-      context: .
+    build: .
     restart: always
     ports:
       - "4000:4000"
@@ -24,6 +22,7 @@ services:
       JWT_REFRESH_SECRET: supersecretrefresh
     depends_on:
       - db
+    command: npm start  # Use the compiled dist/index.js
 
 volumes:
   db_data:
